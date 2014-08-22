@@ -20,6 +20,9 @@ var page_test2 = {
 		quote: function() {
 			return 'This is another test with a random number '+Math.random();
 		}
-	}
+	},
+	callback: function() { alert('page loaded!'); }
 }
 app.addPage(page_test2);
+
+document.body.addEventListener('nowjs-pageload', function(evt) { console.log(evt); }  );

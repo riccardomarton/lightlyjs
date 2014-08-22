@@ -56,7 +56,7 @@ var nowjs = function() {
 	/*
 	 * Load and display a page
 	 */
-	function navigate(url, back) {
+	function navigate(url, vars, back) {
 		//main function, rebuilds DOM
 
 		if (typeof pages[url] == "undefined")
@@ -85,6 +85,10 @@ var nowjs = function() {
 
 		}
 
+		if (typeof page.callback == 'function')
+			page.callback();
+
+		triggerEvent(container, 'nowjs-pageload', {page: page});
 
 	}
 
@@ -104,6 +108,28 @@ var nowjs = function() {
 		} while (elem = elem.parentNode);
 
 		return false;
+	}
+
+	function triggerEvent(element, eventname, vars) {
+		var event; // The custom event that will be created
+
+
+		if (document.createEvent) {
+			event = document.createEvent("HTMLEvents");
+			event.initEvent(eventname, true, true);
+		} else {
+			event = document.createEventObject();
+			event.eventType = eventname;
+		}
+
+		event.eventName = eventname;
+		event.vars = vars;
+
+		if (document.createEvent) {
+			element.dispatchEvent(event);
+		} else {
+			element.fireEvent("on" + event.eventType, event);
+		}
 	}
 
 	/*
