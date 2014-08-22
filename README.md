@@ -41,3 +41,9 @@ You can get a list of the assigned pages by using the *getPages* method
 
 ## Actions ##
 
+-- Work in progress --
+
+## Events ##
+Some custom events are thrown by the container of the application. The event object contains, if needed, a property named *vars* which contains option informations, depending on event.
+
+* **nowjs-pageload:** thrown when a new page has finished loading, after the callback. A reference to the page object is contained in the *vars* property.
