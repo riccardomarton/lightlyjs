@@ -24,7 +24,7 @@ By default it is the *body*, but you can change it by using the *setContainer* m
 Pages are objects representing pages of the application. A page object must have this structure.
 
    	var page = {
-		id: 'identifier of page', 	//string
+		id: 'identifier_of_page', 	//string
 		title: 'Title of page', 	//string - optional
 		contents: {},				//object - optional
 		callback: function() {}		//function - optional
@@ -52,7 +52,7 @@ You can get a list of the assigned pages by using the *getPages* method
 Actions are objects containing functions to trigger. now.js mantains an history of actions triggered in order to offer en easy *back* action. A action object must have this structure
 
    	var action = {
-		id: 'identifier of action', 	//string
+		id: 'identifier_of_action', 	//string
 		callback: function() {}			//function - optional
 		history: true | false			//boolean - optional
 	};
@@ -72,6 +72,20 @@ You can get a list of the assigned actions by using the *getActions* method
 		"id2": {...}, 	//action object 2
 		...
 	}
+
+To execute an action you can use the *executeAction* method. Alternatively, you can use the shorthand method *do*
+
+	app.executeAction('identifier_of_action');
+	app.do('identifier_of_action');
+
+You can pass a *params* object to these methods, which will be passed as argument to the action function.
+	
+	var action = {
+		id: 'identifier_of_action',
+		callback: function(params) {...}
+	}
+	...
+	app.do('identifier_of_action', params);
 
 ## Events ##
 Some custom events are thrown by the container of the application. The event object contains, if needed, a property named *vars* which contains option informations, depending on event.

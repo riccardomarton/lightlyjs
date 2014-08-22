@@ -34,7 +34,7 @@ var nowjs = function() {
 	/*
 	 * Add a page to the pages object
 	 */
-	function addPage (page) {
+	function addPage(page) {
 
 		if( !page || typeof page.id != "string" ) {
 			throw {
@@ -57,44 +57,20 @@ var nowjs = function() {
 	}
 
 	/*
-	 * Add an action to the actions object
-	 */
-	function addAction (action) {
-
-		if( !action || typeof action.id != "string" ) {
-			throw {
-				name: "nowjs-action-noid",
-				message: "No id specified for new action"
-			}
-		}
-
-		var new_action = {
-			id: action.id,
-			callback: action.callback || function() {},
-			history: action.history || true
-		}
-
-		actions[action.id] = new_action;
-
-		triggerEvent(container, 'nowjs-action-added', {action: new_action});
-
-	}
-
-	/*
 	 * Load and display a page
 	 */
-	function navigate(id, vars, back) {
+	function navigate(page_id, vars, back) {
 		//main function, rebuilds DOM
 
-		if (typeof pages[id] == "undefined")
+		if (typeof pages[page_id] == "undefined")
 			throw {
 				name: 'nowjs-page-nonexistant',
-				message: 'Page '+id+' does not exist'
+				message: 'Page '+page_id+' does not exist'
 			}
 
 		var back = back ? true : false;
 
-		var page = pages[id];
+		var page = pages[page_id];
 
 		document.title = page.title;
 
@@ -117,6 +93,46 @@ var nowjs = function() {
 
 		triggerEvent(container, 'nowjs-page-load', {page: page});
 
+	}
+
+	/*
+	 * Add an action to the actions object
+	 */
+	function addAction(action) {
+
+		if( !action || typeof action.id != "string" ) {
+			throw {
+				name: "nowjs-action-noid",
+				message: "No id specified for new action"
+			}
+		}
+
+		var new_action = {
+			id: action.id,
+			callback: action.callback || function() {},
+			history: action.history || true
+		}
+
+		actions[action.id] = new_action;
+
+		triggerEvent(container, 'nowjs-action-added', {action: new_action});
+
+	}
+
+	/*
+	 * Execute one of the assigned actions
+	 */
+	function executeAction(action_id, params) {
+		if (typeof actions[action_id] == "undefined")
+			throw {
+				name: 'nowjs-action-nonexistant',
+				message: 'Action '+action_id+' does not exist'
+			}
+
+		if (typeof actions[action_id].callback == 'function')
+			actions[action_id].callback(params);
+
+		triggerEvent(container, 'nowjs-action-executed', {action: actions[action_id]});
 	}
 
 
@@ -197,6 +213,12 @@ var nowjs = function() {
 		},
 		getActions: function() {
 			return actions;
+		},
+		executeAction: function (action, params) {
+			executeAction(action, params);
+		},
+		do: function(action, params) {
+			executeAction(action, params);
 		}
 	}
 
