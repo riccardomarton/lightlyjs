@@ -20,13 +20,14 @@ var nowjs = function() {
 	 * provided
 	 */
 	function setContainer(node) {
-		if (inDOM(node))
-			container = node;
-		else
+
+		if (!inDOM(node))
 			throw {
 				name: "nowjs-container-invalid",
 				message: "Object provided is not a DOM element"
 			}
+
+		container = node;
 	}
 
 	/*
@@ -65,6 +66,25 @@ var nowjs = function() {
 			}
 
 		var back = back ? true : false;
+
+		var page = pages[url];
+
+		document.title = page.title;
+
+		for (id in page.contents) {
+
+			var elem = document.getElementById(id);
+			if (elem == null)
+				continue;
+
+			if (typeof page.contents[id] == 'function') {
+				elem.innerHTML = page.contents[id]();
+			} else {
+				elem.innerHTML = page.contents[id];
+			}
+
+		}
+
 
 	}
 
