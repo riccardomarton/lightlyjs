@@ -14,6 +14,7 @@ var nowjs = function() {
 	var container = document.body;
 	var pages = {};
 	var actions = {};
+	var history = {};
 
 	/*
 	 * Set a node as main container. nowjs will not operate outside of the node
@@ -35,39 +36,65 @@ var nowjs = function() {
 	 */
 	function addPage (page) {
 
-		if( !page || typeof page.url != "string" ) {
+		if( !page || typeof page.id != "string" ) {
 			throw {
-				name: "nowjs-page-nourl",
-				message: "No url specified for new page"
+				name: "nowjs-page-noid",
+				message: "No id specified for new page"
 			}
 		}
 
 		var new_page = {
-			url: page.url,
+			id: page.id,
 			title: page.title || "New page",
 			contents: page.contents || {},
 			callback: page.callback || function() {}
 		}
 
-		pages[page.url] = new_page;
+		pages[page.id] = new_page;
+
+		triggerEvent(container, 'nowjs-page-added', {page: new_page});
+
+	}
+
+	/*
+	 * Add an action to the actions object
+	 */
+	function addAction (action) {
+
+		if( !action || typeof action.id != "string" ) {
+			throw {
+				name: "nowjs-action-noid",
+				message: "No id specified for new action"
+			}
+		}
+
+		var new_action = {
+			id: action.id,
+			callback: action.callback || function() {},
+			history: action.history || true
+		}
+
+		actions[action.id] = new_action;
+
+		triggerEvent(container, 'nowjs-action-added', {action: new_action});
 
 	}
 
 	/*
 	 * Load and display a page
 	 */
-	function navigate(url, vars, back) {
+	function navigate(id, vars, back) {
 		//main function, rebuilds DOM
 
-		if (typeof pages[url] == "undefined")
+		if (typeof pages[id] == "undefined")
 			throw {
 				name: 'nowjs-page-nonexistant',
-				message: 'Page '+url+' does not exist'
+				message: 'Page '+id+' does not exist'
 			}
 
 		var back = back ? true : false;
 
-		var page = pages[url];
+		var page = pages[id];
 
 		document.title = page.title;
 
@@ -88,7 +115,7 @@ var nowjs = function() {
 		if (typeof page.callback == 'function')
 			page.callback();
 
-		triggerEvent(container, 'nowjs-pageload', {page: page});
+		triggerEvent(container, 'nowjs-page-load', {page: page});
 
 	}
 
@@ -112,7 +139,6 @@ var nowjs = function() {
 
 	function triggerEvent(element, eventname, vars) {
 		var event; // The custom event that will be created
-
 
 		if (document.createEvent) {
 			event = document.createEvent("HTMLEvents");
@@ -159,18 +185,18 @@ var nowjs = function() {
 		getPages: function() {
 			return pages;
 		},
-		navigate: function(url) {
-			navigate(url);
+		navigate: function(id) {
+			navigate(id);
 		},
 
 		/*
 		 * Actions management
 		 */
-		addAction: function() {
-
+		addAction: function(action) {
+			addAction(action);
 		},
 		getActions: function() {
-
+			return actions;
 		}
 	}
 

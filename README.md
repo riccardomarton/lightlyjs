@@ -12,11 +12,19 @@ To initialize an app using now.js simply invoke the *nowjs* function inside a va
 
 	var app = nowjs();
 
+## Container ##
+The container is the element which contains the entire app. The container is the element which throws all the events triggered by nowjs.
+
+
+By default it is the *body*, but you can change it by using the *setContainer* method.
+	
+	app.setContainer(elem);		//elem must be a valid DOM element
+
 ## Pages ##
 Pages are objects representing pages of the application. A page object must have this structure.
 
    	var page = {
-		url: 'identifier of page', 	//string
+		id: 'identifier of page', 	//string
 		title: 'Title of page', 	//string - optional
 		contents: {},				//object - optional
 		callback: function() {}		//function - optional
@@ -28,12 +36,12 @@ You can add a page to your app using the *addPage* method
 
 You can get a list of the assigned pages by using the *getPages* method
 
-	app.getPages();
+	var pages = app.getPages();
 
 	//returns
-	{
-		"url1": {...}, 	//page object 1
-		"url2": {...}, 	//page object 2
+	pages = {
+		"id1": {...}, 	//page object 1
+		"id2": {...}, 	//page object 2
 		...
 	}
 	
@@ -41,9 +49,33 @@ You can get a list of the assigned pages by using the *getPages* method
 
 ## Actions ##
 
--- Work in progress --
+Actions are objects containing functions to trigger. now.js mantains an history of actions triggered in order to offer en easy *back* action. A action object must have this structure
+
+   	var action = {
+		id: 'identifier of action', 	//string
+		callback: function() {}			//function - optional
+		history: true | false			//boolean - optional
+	};
+
+*back* and *navigate* are built-in actions and cannot be ovewritten. If you try to do so the *container* will throw an Exception. 
+You can add an action to your app using the *addAction* method
+	
+	app.addAction(action);
+
+You can get a list of the assigned actions by using the *getActions* method
+
+	var actions = app.getActions();
+
+	//returns
+	actions = {
+		"id1": {...}, 	//action object 1
+		"id2": {...}, 	//action object 2
+		...
+	}
 
 ## Events ##
 Some custom events are thrown by the container of the application. The event object contains, if needed, a property named *vars* which contains option informations, depending on event.
 
-* **nowjs-pageload:** thrown when a new page has finished loading, after the callback. A reference to the page object is contained in the *vars* property.
+* **nowjs-page-added**: thrown when a new page has been added. A reference to the page object is contained in the *vars* property of the event.
+* **nowjs-page-load**: thrown when a new page has finished loading, after the callback. A reference to the page object is contained in the *vars* property of the event.
+* * **nowjs-action-added**: thrown when a new action has been added. A reference to the action object is contained in the *vars* property of the event.
