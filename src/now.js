@@ -13,8 +13,19 @@ var nowjs = function() {
 	var appname = "new App";
 	var container = document.body;
 	var pages = {};
-	var actions = {};
-	var history = {};
+	var history = [];
+	var actions = {
+		"navigate": {
+			id: "navigate",
+			callback: navigate,
+			history: true
+		},
+		"back": {
+			id: "back",
+			callback: back,
+			history: false
+		}
+	};
 
 	/*
 	 * Set a node as main container. nowjs will not operate outside of the node
@@ -100,12 +111,17 @@ var nowjs = function() {
 	 */
 	function addAction(action) {
 
-		if( !action || typeof action.id != "string" ) {
+		if( !action || typeof action.id != "string" )
 			throw {
 				name: "nowjs-action-noid",
 				message: "No id specified for new action"
 			}
-		}
+
+		if (action.id == 'navigate' || action.id == 'back')
+			throw {
+				name: "nowjs-action-forbidden",
+				message: "Cannot overwrite built-in actions"
+			}
 
 		var new_action = {
 			id: action.id,
@@ -132,7 +148,20 @@ var nowjs = function() {
 		if (typeof actions[action_id].callback == 'function')
 			actions[action_id].callback(params);
 
+		var history_action = {
+			action_id: action_id,
+			params: params
+		}
+		history.push(history_action);
+
 		triggerEvent(container, 'nowjs-action-executed', {action: actions[action_id]});
+	}
+
+	/*
+	 * Go back in the history
+	 */
+	function back() {
+
 	}
 
 
