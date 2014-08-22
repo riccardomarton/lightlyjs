@@ -7,22 +7,43 @@
 
 var nowjs = function() {
 
-	var appname = 'new App';
+	/*
+	 * Private properties
+	 */
+	var appname = "new App";
+	var container = document.body;
 	var pages = {};
 	var actions = {};
 
+	/*
+	 * Set a node as main container. nowjs will not operate outside of the node
+	 * provided
+	 */
+	function setContainer(node) {
+		if (inDOM(node))
+			container = node;
+		else
+			throw {
+				name: "nowjs-container-invalid",
+				message: "Object provided is not a DOM element"
+			}
+	}
+
+	/*
+	 * Add a page to the pages object
+	 */
 	function addPage (page) {
 
-		if( !page || typeof page.url != 'string' ) {
+		if( !page || typeof page.url != "string" ) {
 			throw {
-				name: 'nowjs-page-nourl',
-				message: 'No url specified for new page'
+				name: "nowjs-page-nourl",
+				message: "No url specified for new page"
 			}
 		}
 
 		var new_page = {
 			url: page.url,
-			title: page.title || 'New page',
+			title: page.title || "New page",
 			contents: page.contents || {},
 			callback: page.callback || function() {}
 		}
@@ -31,27 +52,74 @@ var nowjs = function() {
 
 	}
 
+	/*
+	 * Load and display a page
+	 */
+	function navigate(url, back) {
+		//main function, rebuilds DOM
+
+		if (typeof pages[url] == "undefined")
+			throw {
+				name: 'nowjs-page-nonexistant',
+				message: 'Page '+url+' does not exist'
+			}
+
+		var back = back ? true : false;
+
+	}
 
 
+	/*
+	 * Utilities functions
+	 */
+
+	/*
+	 * Check if elem is a valid DOM element
+	 */
+	function inDOM(elem) {
+		do {
+			if (elem == document.documentElement) {
+				return true;
+			}
+		} while (elem = elem.parentNode);
+
+		return false;
+	}
+
+	/*
+	 * Expose public methods
+	 */
 	return {
 
-		//app name and general infos
+		/*
+		 * App name and general infos
+		 */
 		setAppName: function(new_name) {
 			appname = new_name;
 		},
 		getAppName: function() {
 			return appname;
 		},
+		setContainer: function(node) {
+			setContainer(node);
+		},
 
-		//pages management
+		/*
+		 * Pages management
+		 */
 		addPage: function(page) {
 			addPage(page);
 		},
 		getPages: function() {
 			return pages;
 		},
+		navigate: function(url) {
+			navigate(url);
+		},
 
-		//actions management
+		/*
+		 * Actions management
+		 */
 		addAction: function() {
 
 		},
