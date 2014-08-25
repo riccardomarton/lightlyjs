@@ -1,5 +1,5 @@
 /**
- * Version: 0.2
+ * Version: 0.3
  * Author: Riccardo Marton <marton.riccardo@gmail.com>
  * 
  * License: Licensed under The MIT License. See LICENSE file
@@ -63,7 +63,7 @@ var lightly = function() {
 
 		pages[page.id] = new_page;
 
-		triggerEvent(container, 'lightly-page-added', {page: new_page});
+		triggerEvent(container, "lightly-page-added", {page: new_page});
 
 	}
 
@@ -75,8 +75,8 @@ var lightly = function() {
 
 		if (typeof pages[page_id] == "undefined")
 			throw {
-				name: 'lightly-page-nonexistant',
-				message: 'Page '+page_id+' does not exist'
+				name: "lightly-page-nonexistant",
+				message: "Page "+page_id+" does not exist"
 			}
 
 		var back = back ? true : false;
@@ -91,7 +91,7 @@ var lightly = function() {
 			if (elem == null)
 				continue;
 
-			if (typeof page.contents[id] == 'function') {
+			if (typeof page.contents[id] == "function") {
 				elem.innerHTML = page.contents[id](vars);
 			} else {
 				elem.innerHTML = page.contents[id];
@@ -99,10 +99,10 @@ var lightly = function() {
 
 		}
 
-		if (typeof page.callback == 'function')
+		if (typeof page.callback == "function")
 			page.callback(vars);
 
-		triggerEvent(container, 'lightly-page-load', {page: page});
+		triggerEvent(container, "lightly-page-load", {page: page});
 
 	}
 
@@ -117,7 +117,7 @@ var lightly = function() {
 				message: "No id specified for new action"
 			}
 
-		if (action.id == 'navigate' || action.id == 'back')
+		if (action.id == "navigate" || action.id == "back")
 			throw {
 				name: "lightly-action-forbidden",
 				message: "Cannot overwrite built-in actions"
@@ -131,7 +131,7 @@ var lightly = function() {
 
 		actions[action.id] = new_action;
 
-		triggerEvent(container, 'lightly-action-added', {action: new_action});
+		triggerEvent(container, "lightly-action-added", {action: new_action});
 
 	}
 
@@ -142,13 +142,13 @@ var lightly = function() {
 
 		if (typeof actions[action_id] == "undefined")
 			throw {
-				name: 'lightly-action-nonexistant',
-				message: 'Action '+action_id+' does not exist'
+				name: "lightly-action-nonexistant",
+				message: "Action "+action_id+" does not exist"
 			}
 
 		var params = Array.prototype.slice.call(arguments,1);
 
-		if (typeof actions[action_id].callback == 'function')
+		if (typeof actions[action_id].callback == "function")
 			actions[action_id].callback.apply(null, params);
 
 		var history_action = {
@@ -159,7 +159,7 @@ var lightly = function() {
 		if (actions[action_id].history)
 			history.push(history_action);
 
-		triggerEvent(container, 'lightly-action-executed', {action: actions[action_id]});
+		triggerEvent(container, "lightly-action-executed", {action: actions[action_id]});
 	}
 
 	/*
@@ -181,7 +181,7 @@ var lightly = function() {
 
 		executeAction.apply(null, params);
 
-		triggerEvent(container, 'lightly-action-back', {action: action});
+		triggerEvent(container, "lightly-action-back", {action: action});
 
 	}
 
