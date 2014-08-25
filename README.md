@@ -92,4 +92,6 @@ Some custom events are thrown by the container of the application. The event obj
 
 * **lightly-page-added**: thrown when a new page has been added. A reference to the page object is contained in the *vars* property of the event.
 * **lightly-page-load**: thrown when a new page has finished loading, after the callback. A reference to the page object is contained in the *vars* property of the event.
-* * **lightly-action-added**: thrown when a new action has been added. A reference to the action object is contained in the *vars* property of the event.
+* **lightly-action-added**: thrown when a new action has been added. A reference to the action object is contained in the *vars* property of the event.
+* **lightly-action-executed**: thrown when an action has been performed. A reference to the action object is contained in the *vars* property of the event.
+* **lightly-action-back**: thrown when a *back* action has been performed. A reference to the action object is contained in the *vars* property of the event.

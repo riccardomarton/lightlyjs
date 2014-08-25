@@ -1,5 +1,5 @@
 /**
- * Version: 0.1
+ * Version: 0.2
  * Author: Riccardo Marton <marton.riccardo@gmail.com>
  * 
  * License: Licensed under The MIT License. See LICENSE file
@@ -155,7 +155,9 @@ var lightly = function() {
 			action_id: action_id,
 			params: params
 		}
-		history.push(history_action);
+
+		if (typeof actions[action_id].history)
+			history.push(history_action);
 
 		triggerEvent(container, 'lightly-action-executed', {action: actions[action_id]});
 	}
@@ -164,6 +166,22 @@ var lightly = function() {
 	 * Go back in the history
 	 */
 	function back() {
+
+		if (history.length < 2)
+			return;
+
+		history.pop();
+
+		var i = history.length - 1;
+
+		var action = history[i];
+
+		var params = action.params.slice(0);
+		params.unshift(action.action_id);
+
+		executeAction.apply(null, params);
+
+		triggerEvent(container, 'lightly-action-back', {action: action);
 
 	}
 

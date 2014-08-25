@@ -35,3 +35,4 @@ app.addAction(test_action);
 document.body.addEventListener('lightly-pageload', function(evt) { console.log(evt); }  );
 
 app.do('navigate', 'test1');
+app.do('navigate', 'test2');
