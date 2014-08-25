@@ -138,15 +138,18 @@ var lightly = function() {
 	/*
 	 * Execute one of the assigned actions
 	 */
-	function executeAction(action_id, params) {
+	function executeAction(action_id) {
+
 		if (typeof actions[action_id] == "undefined")
 			throw {
 				name: 'lightly-action-nonexistant',
 				message: 'Action '+action_id+' does not exist'
 			}
 
+		var params = Array.prototype.slice.call(arguments,1);
+
 		if (typeof actions[action_id].callback == 'function')
-			actions[action_id].callback(params);
+			actions[action_id].callback.apply(null, params);
 
 		var history_action = {
 			action_id: action_id,
@@ -217,38 +220,29 @@ var lightly = function() {
 		getAppName: function() {
 			return appname;
 		},
-		setContainer: function(node) {
-			setContainer(node);
-		},
+		setContainer: setContainer,
 
 		/*
 		 * Pages management
 		 */
-		addPage: function(page) {
-			addPage(page);
-		},
+		addPage: addPage,
 		getPages: function() {
 			return pages;
 		},
-		navigate: function(id) {
-			navigate(id);
-		},
+		navigate: navigate,
 
 		/*
 		 * Actions management
 		 */
-		addAction: function(action) {
-			addAction(action);
-		},
+		addAction: addAction,
 		getActions: function() {
 			return actions;
 		},
-		executeAction: function (action, params) {
-			executeAction(action, params);
+		executeAction: executeAction,
+		do: executeAction,
+		getHistory: function() {
+			return history;
 		},
-		do: function(action, params) {
-			executeAction(action, params);
-		}
 	}
 
 }
