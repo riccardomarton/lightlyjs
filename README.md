@@ -78,14 +78,39 @@ To execute an action you can use the *executeAction* method. Alternatively, you 
 	app.executeAction('identifier_of_action');
 	app.do('identifier_of_action');
 
-You can pass a *params* object to these methods, which will be passed as argument to the action function.
+You can pass a other arguments to these methods, which will be passed as arguments to the action function.
 	
 	var action = {
 		id: 'identifier_of_action',
-		callback: function(params) {...}
+		callback: function(a, b, c, ...) {...}
 	}
 	...
-	app.do('identifier_of_action', params);
+	app.do('identifier_of_action', a, b, c, ...);
+
+You can use the *getHistory* method to retrieve the current history array. The last element is the most recent.
+	
+	var history = app.getHistory();
+
+	//returns
+	history = [
+		{...},	//action object 1
+		{...},	//action object 2
+		...
+	]
+
+### Built-in actions ###
+The *back* action can be used to re-do back to the previous action performed.
+
+The *navigate* action can be used to show a page. You'll need to specify the id of the page you want to load, and, optionally, a object containing other paramethers. Those paramethers will be passed as an argument to both the contents and the callback functions of that page.
+
+The ***navigate* action** is tracked in the history by default. If you need to avoid tracking of the navigation, you can define a custom action using the ***navigate* method**
+
+	var custom_navigate = {
+		id: 'custom_navigate',
+		callback: navigate,
+		history: false
+	}
+	app.addAction(custom_navigate);
 
 ## Events ##
 Some custom events are thrown by the container of the application. The event object contains, if needed, a property named *vars* which contains option informations, depending on event.

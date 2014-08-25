@@ -92,7 +92,7 @@ var lightly = function() {
 				continue;
 
 			if (typeof page.contents[id] == 'function') {
-				elem.innerHTML = page.contents[id]();
+				elem.innerHTML = page.contents[id](vars);
 			} else {
 				elem.innerHTML = page.contents[id];
 			}
@@ -100,7 +100,7 @@ var lightly = function() {
 		}
 
 		if (typeof page.callback == 'function')
-			page.callback();
+			page.callback(vars);
 
 		triggerEvent(container, 'lightly-page-load', {page: page});
 
@@ -156,7 +156,7 @@ var lightly = function() {
 			params: params
 		}
 
-		if (typeof actions[action_id].history)
+		if (actions[action_id].history)
 			history.push(history_action);
 
 		triggerEvent(container, 'lightly-action-executed', {action: actions[action_id]});
@@ -172,16 +172,16 @@ var lightly = function() {
 
 		history.pop();
 
-		var i = history.length - 1;
+		// var i = history.length - 1;
 
-		var action = history[i];
+		var action = history.pop();
 
 		var params = action.params.slice(0);
 		params.unshift(action.action_id);
 
 		executeAction.apply(null, params);
 
-		triggerEvent(container, 'lightly-action-back', {action: action);
+		triggerEvent(container, 'lightly-action-back', {action: action});
 
 	}
 
