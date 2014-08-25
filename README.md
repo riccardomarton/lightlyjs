@@ -8,12 +8,12 @@ It's not really powerful, and is very limited in usage, but it is designed this 
 It is made for use primarly with Cordova/Phonegap, so it doesn't change the actual URL of the page. Possibly it will be a future implementation.
 
 ## Initialization ##
-To initialize an app using lightly.js simply invoke the *nowjs* function inside a variable.
+To initialize an app using lightly.js simply invoke the *lightly* function inside a variable.
 
 	var app = lightly();
 
 ## Container ##
-The container is the element which contains the entire app. The container is the element which throws all the events triggered by nowjs.
+The container is the element which contains the entire app. The container is the element which throws all the events triggered by lightly.
 
 
 By default it is the *body*, but you can change it by using the *setContainer* method.
@@ -90,6 +90,6 @@ You can pass a *params* object to these methods, which will be passed as argumen
 ## Events ##
 Some custom events are thrown by the container of the application. The event object contains, if needed, a property named *vars* which contains option informations, depending on event.
 
-* **nowjs-page-added**: thrown when a new page has been added. A reference to the page object is contained in the *vars* property of the event.
-* **nowjs-page-load**: thrown when a new page has finished loading, after the callback. A reference to the page object is contained in the *vars* property of the event.
-* * **nowjs-action-added**: thrown when a new action has been added. A reference to the action object is contained in the *vars* property of the event.
+* **lightly-page-added**: thrown when a new page has been added. A reference to the page object is contained in the *vars* property of the event.
+* **lightly-page-load**: thrown when a new page has finished loading, after the callback. A reference to the page object is contained in the *vars* property of the event.
+* * **lightly-action-added**: thrown when a new action has been added. A reference to the action object is contained in the *vars* property of the event.

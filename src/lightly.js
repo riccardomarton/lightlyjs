@@ -185,6 +185,9 @@ var lightly = function() {
 		return false;
 	}
 
+	/*
+	 * Trigger a custom event
+	 */
 	function triggerEvent(element, eventname, vars) {
 		var event; // The custom event that will be created
 
