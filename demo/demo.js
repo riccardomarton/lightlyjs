@@ -2,7 +2,7 @@
  * now.js Demo
  */
 
-var app = nowjs();
+var app = lightly();
 
 var page_test1 = {
 	id: 'test1',
@@ -32,4 +32,4 @@ test_action = {
 }
 app.addAction(test_action);
 
-document.body.addEventListener('nowjs-pageload', function(evt) { console.log(evt); }  );
+document.body.addEventListener('lightly-pageload', function(evt) { console.log(evt); }  );

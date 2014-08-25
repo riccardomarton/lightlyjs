@@ -5,7 +5,7 @@
  * License: Licensed under The MIT License. See LICENSE file
  */
 
-var nowjs = function() {
+var lightly = function() {
 
 	/*
 	 * Private properties
@@ -28,14 +28,14 @@ var nowjs = function() {
 	};
 
 	/*
-	 * Set a node as main container. nowjs will not operate outside of the node
+	 * Set a node as main container. lightly will not operate outside of the node
 	 * provided
 	 */
 	function setContainer(node) {
 
 		if (!inDOM(node))
 			throw {
-				name: "nowjs-container-invalid",
+				name: "lightly-container-invalid",
 				message: "Object provided is not a DOM element"
 			}
 
@@ -49,7 +49,7 @@ var nowjs = function() {
 
 		if( !page || typeof page.id != "string" ) {
 			throw {
-				name: "nowjs-page-noid",
+				name: "lightly-page-noid",
 				message: "No id specified for new page"
 			}
 		}
@@ -63,7 +63,7 @@ var nowjs = function() {
 
 		pages[page.id] = new_page;
 
-		triggerEvent(container, 'nowjs-page-added', {page: new_page});
+		triggerEvent(container, 'lightly-page-added', {page: new_page});
 
 	}
 
@@ -75,7 +75,7 @@ var nowjs = function() {
 
 		if (typeof pages[page_id] == "undefined")
 			throw {
-				name: 'nowjs-page-nonexistant',
+				name: 'lightly-page-nonexistant',
 				message: 'Page '+page_id+' does not exist'
 			}
 
@@ -102,7 +102,7 @@ var nowjs = function() {
 		if (typeof page.callback == 'function')
 			page.callback();
 
-		triggerEvent(container, 'nowjs-page-load', {page: page});
+		triggerEvent(container, 'lightly-page-load', {page: page});
 
 	}
 
@@ -113,13 +113,13 @@ var nowjs = function() {
 
 		if( !action || typeof action.id != "string" )
 			throw {
-				name: "nowjs-action-noid",
+				name: "lightly-action-noid",
 				message: "No id specified for new action"
 			}
 
 		if (action.id == 'navigate' || action.id == 'back')
 			throw {
-				name: "nowjs-action-forbidden",
+				name: "lightly-action-forbidden",
 				message: "Cannot overwrite built-in actions"
 			}
 
@@ -131,7 +131,7 @@ var nowjs = function() {
 
 		actions[action.id] = new_action;
 
-		triggerEvent(container, 'nowjs-action-added', {action: new_action});
+		triggerEvent(container, 'lightly-action-added', {action: new_action});
 
 	}
 
@@ -141,7 +141,7 @@ var nowjs = function() {
 	function executeAction(action_id, params) {
 		if (typeof actions[action_id] == "undefined")
 			throw {
-				name: 'nowjs-action-nonexistant',
+				name: 'lightly-action-nonexistant',
 				message: 'Action '+action_id+' does not exist'
 			}
 
@@ -154,7 +154,7 @@ var nowjs = function() {
 		}
 		history.push(history_action);
 
-		triggerEvent(container, 'nowjs-action-executed', {action: actions[action_id]});
+		triggerEvent(container, 'lightly-action-executed', {action: actions[action_id]});
 	}
 
 	/*
