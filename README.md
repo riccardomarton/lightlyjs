@@ -120,3 +120,6 @@ Some custom events are thrown by the container of the application. The event obj
 * **lightly-action-added**: thrown when a new action has been added. A reference to the action object is contained in the *vars* property of the event.
 * **lightly-action-executed**: thrown when an action has been performed. A reference to the action object is contained in the *vars* property of the event.
 * **lightly-action-back**: thrown when a *back* action has been performed. A reference to the action object is contained in the *vars* property of the event.
+
+## Unit testing ##
+To test the code, lightly uses the [http://api.qunitjs.com/QUnit.test/](http://api.qunitjs.com/QUnit.test/ "QUnit library"). The test unit file is contained in the *tests* folder. To test lightly.js simply open *tests/index.html* in your browser.
