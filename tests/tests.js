@@ -38,7 +38,7 @@ QUnit.test( "page managing and navigation", function( assert ) {
 
 	//navigate
 	app.navigate("test");
-	assert.ok( document.getElementById("quote").innerHTML == page_test.contents.quote, "Navigation to test page" );
+	assert.ok( container.getElementsByClassName("quote")[0].innerHTML == page_test.contents.quote, "Navigation to test page" );
 });
 
 /**
@@ -80,6 +80,6 @@ QUnit.test( "action managing, executing and history", function( assert ) {
 	}
 	app.addPage(page_test);
 	app.do("navigate", "action-navigate-test");
-	assert.ok( document.getElementById("quote").innerHTML == page_test.contents.quote, "Navigate action working" );
+	assert.ok( container.getElementsByClassName("quote")[0].innerHTML == page_test.contents.quote, "Navigate action working" );
 
 });
