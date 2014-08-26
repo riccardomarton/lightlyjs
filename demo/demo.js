@@ -15,7 +15,7 @@ app.addPage(page_test1);
 
 var page_test2 = {
 	id: 'test2',
-	title: 'page test 1',
+	title: 'page test 2',
 	contents: {
 		quote: function() {
 			return 'This is another test with a random number '+Math.random();

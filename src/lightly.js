@@ -1,5 +1,5 @@
 /**
- * Version: 0.4
+ * Version: 0.5
  * Author: Riccardo Marton <marton.riccardo@gmail.com>
  * 
  * License: Licensed under The MIT License. See LICENSE file
@@ -70,7 +70,7 @@ var lightly = function() {
 	/*
 	 * Load and display a page
 	 */
-	function navigateHTML(page_id, vars) {
+	function newPageElement(page_id, vars) {
 		if (typeof pages[page_id] == "undefined")
 			throw {
 				name: "lightly-page-nonexistant",
@@ -109,7 +109,7 @@ var lightly = function() {
 	function navigate(page_id, vars) {
 		//main function, rebuilds DOM
 
-		div = navigateHTML(page_id, vars);
+		div = newPageElement(page_id, vars);
 
 		container.innerHTML = div.innerHTML;
 
@@ -264,6 +264,7 @@ var lightly = function() {
 			return pages;
 		},
 		navigate: navigate,
+		newPageElement: newPageElement,
 
 		/*
 		 * Actions management
