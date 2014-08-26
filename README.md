@@ -112,6 +112,10 @@ The ***navigate* action** is tracked in the history by default. If you need to a
 	}
 	app.addAction(custom_navigate);
 
+### Other methods ###
+* **navigate:** it works in the same way of the *navigate action*, but it doesn't use the history array, so you can define your own navigation action.
+* **newPageElement:** it takes the same paramethers of the navigate methods but, instead of showing the new page, it returns a div element containing the new page. Using this method you can add effects to navigation.  
+
 ## Events ##
 Some custom events are thrown by the container of the application. The event object contains, if needed, a property named *vars* which contains option informations, depending on event.
 
@@ -122,4 +126,4 @@ Some custom events are thrown by the container of the application. The event obj
 * **lightly-action-back**: thrown when a *back* action has been performed. A reference to the action object is contained in the *vars* property of the event.
 
 ## Unit testing ##
-To test the code, lightly uses the [http://api.qunitjs.com/QUnit.test/](http://api.qunitjs.com/QUnit.test/ "QUnit library"). The test unit file is contained in the *tests* folder. To test lightly.js simply open *tests/index.html* in your browser.
+To test the code, lightly uses the [QUnit library](http://api.qunitjs.com/QUnit.test/). The test unit file is contained in the *tests* folder. To test lightly.js simply open *tests/index.html* in your browser.
