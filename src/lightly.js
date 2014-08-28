@@ -1,5 +1,8 @@
 /**
- * Version: 0.5
+ * lightly.js
+ * a lightweight js app platform
+ *
+ * Version: 0.6
  * Author: Riccardo Marton <marton.riccardo@gmail.com>
  * 
  * License: Licensed under The MIT License. See LICENSE file
@@ -136,10 +139,14 @@ var lightly = function() {
 				message: "Cannot overwrite built-in actions"
 			}
 
+		var history = true;
+		if (typeof action.history == 'boolean' )
+			history = action.history;
+
 		var new_action = {
 			id: action.id,
 			callback: action.callback || function() {},
-			history: action.history || true
+			history: history
 		}
 
 		actions[action.id] = new_action;
