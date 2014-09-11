@@ -81,7 +81,7 @@ var lightly = function() {
 			}
 
 		var page = pages[page_id];
-		var args = Array.prototype.slice.call(arguments,0);
+		var args = Array.prototype.slice.call(arguments,1);
 
 		document.title = page.title;
 
