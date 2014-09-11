@@ -2,7 +2,7 @@
  * lightly.js
  * a lightweight js app platform
  *
- * Version: 0.6
+ * Version: 0.6.1
  * Author: Riccardo Marton <marton.riccardo@gmail.com>
  * 
  * License: Licensed under The MIT License. See LICENSE file
@@ -73,7 +73,7 @@ var lightly = function() {
 	/*
 	 * Load and display a page
 	 */
-	function newPageElement(page_id, vars) {
+	function newPageElement(page_id) {
 		if (typeof pages[page_id] == "undefined")
 			throw {
 				name: "lightly-page-nonexistant",
@@ -81,6 +81,7 @@ var lightly = function() {
 			}
 
 		var page = pages[page_id];
+		var args = Array.prototype.slice.call(arguments,0);
 
 		document.title = page.title;
 
@@ -94,7 +95,7 @@ var lightly = function() {
 				continue;
 
 			if (typeof page.contents[id] == "function") {
-				elem.innerHTML = page.contents[id](vars);
+				elem.innerHTML = page.contents[id].apply(null, args);
 			} else {
 				elem.innerHTML = page.contents[id];
 			}
@@ -102,7 +103,7 @@ var lightly = function() {
 		}
 
 		if (typeof page.callback == "function")
-			page.callback(vars);
+			page.callback.apply(null, args);
 
 		triggerEvent(container, "lightly-page-load", {page: page});
 
