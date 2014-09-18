@@ -15,7 +15,7 @@ var lightly = function() {
 	 */
 	var appname = "new App";
 	var container = document.body;
-	var current_page;
+	var current_page = {};
 	var pages = {};
 	var history = [];
 	var actions = {
@@ -113,15 +113,16 @@ var lightly = function() {
 
 	function navigate(page_id, vars) {
 		//main function, rebuilds DOM
-		var page = arguments;
+		var page = JSON.stringify(arguments);
 
-		if (JSON.stringify(page) == JSON.stringify(current_page))
+		if (page == current_page)
 			return false;
+
+		current_page = page;
 
 		div = newPageElement(page_id, vars);
 		container.innerHTML = div.innerHTML;
 
-		current_page = page;
 
 		triggerEvent(container, "lightly-page-shown", {page: page});
 
@@ -276,7 +277,13 @@ var lightly = function() {
 		/*
 		 * Pages management
 		 */
-		current_page: current_page,
+		getCurrentPage: function() { return current_page },
+		setCurrentPage: function(page) {
+			if (typeof page == "string")
+				current_page = page;
+			else
+				current_page = JSON.stringify(page);
+		},
 		addPage: addPage,
 		getPages: function() {
 			return pages;
