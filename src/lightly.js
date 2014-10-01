@@ -111,6 +111,7 @@ var lightly = function() {
 	function navigate(page_id, vars) {
 		//main function, rebuilds DOM
 		var page = JSON.stringify(arguments);
+		var args = Array.prototype.slice.call(arguments,1);
 
 		if (page == current_page)
 			return false;
