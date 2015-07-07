@@ -4,7 +4,7 @@
  *
  * Version: 0.6.2
  * Author: Riccardo Marton <marton.riccardo@gmail.com>
- * 
+ *
  * License: Licensed under The MIT License. See LICENSE file
  */
 
@@ -41,7 +41,7 @@ var lightly = function() {
 			throw {
 				name: "lightly-container-invalid",
 				message: "Object provided is not a DOM element"
-			}
+			};
 
 		container = node;
 	}
@@ -55,7 +55,7 @@ var lightly = function() {
 			throw {
 				name: "lightly-page-noid",
 				message: "No id specified for new page"
-			}
+			};
 		}
 
 		var new_page = {
@@ -63,7 +63,7 @@ var lightly = function() {
 			title: page.title || "New page",
 			contents: page.contents || {},
 			callback: page.callback || function() {}
-		}
+		};
 
 		pages[page.id] = new_page;
 
@@ -79,7 +79,7 @@ var lightly = function() {
 			throw {
 				name: "lightly-page-nonexistant",
 				message: "Page "+page_id+" does not exist"
-			}
+			};
 
 		var page = pages[page_id];
 		var args = Array.prototype.slice.call(arguments,1);
@@ -89,10 +89,10 @@ var lightly = function() {
 		var div = document.createElement('div');
 		div.innerHTML = container.innerHTML;
 
-		for (id in page.contents) {
+		for (var id in page.contents) {
 
 			var elem = div.getElementsByClassName(id)[0];
-			if (elem == null)
+			if (elem === null)
 				continue;
 
 			if (typeof page.contents[id] == "function") {
@@ -121,7 +121,25 @@ var lightly = function() {
 		div = newPageElement(page_id, vars);
 		container.innerHTML = div.innerHTML;
 
-		triggerEvent(container, "lightly-page-shown", {page: page});
+		triggerEvent(container, "lightly-page-shown", {page: container});
+
+		if (typeof pages[page_id].callback == "function")
+			pages[page_id].callback.apply(null, args);
+
+	}
+	function refresh() {
+
+		var page = JSON.parse(current_page);
+		var args = [];
+		for (var i in page) {
+			args.push(page[i]);
+		}
+		var page_id = args[0];
+
+		div = newPageElement.apply(null, args);
+		container.innerHTML = div.innerHTML;
+
+		triggerEvent(container, "lightly-page-refresh", {page: container});
 
 		if (typeof pages[page_id].callback == "function")
 			pages[page_id].callback.apply(null, args);
@@ -137,13 +155,13 @@ var lightly = function() {
 			throw {
 				name: "lightly-action-noid",
 				message: "No id specified for new action"
-			}
+			};
 
 		if (action.id == "navigate" || action.id == "back")
 			throw {
 				name: "lightly-action-forbidden",
 				message: "Cannot overwrite built-in actions"
-			}
+			};
 
 		var history = true;
 		if (typeof action.history == 'boolean' )
@@ -153,7 +171,7 @@ var lightly = function() {
 			id: action.id,
 			callback: action.callback || function() {},
 			history: history
-		}
+		};
 
 		actions[action.id] = new_action;
 
@@ -170,13 +188,13 @@ var lightly = function() {
 			throw {
 				name: "lightly-action-nonexistant",
 				message: "Action "+action_id+" does not exist"
-			}
+			};
 
 		var params = Array.prototype.slice.call(arguments,1);
 
 		if (typeof actions[action_id].callback != "function")
 			return;
-		
+
 		var res = actions[action_id].callback.apply(null, params);
 
 		if (res === false)
@@ -185,7 +203,7 @@ var lightly = function() {
 		var history_action = {
 			action_id: action_id,
 			params: params
-		}
+		};
 
 		if (actions[action_id].history)
 			history.push(history_action);
@@ -279,7 +297,7 @@ var lightly = function() {
 		/*
 		 * Pages management
 		 */
-		getCurrentPage: function() { return current_page },
+		getCurrentPage: function() { return current_page; },
 		setCurrentPage: function(page) {
 			if (typeof page == "string")
 				current_page = page;
@@ -291,6 +309,7 @@ var lightly = function() {
 			return pages;
 		},
 		navigate: navigate,
+		refresh: refresh,
 		newPageElement: newPageElement,
 
 		/*
@@ -305,6 +324,6 @@ var lightly = function() {
 		getHistory: function() {
 			return history;
 		},
-	}
+	};
 
-}
+};
